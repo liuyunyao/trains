@@ -6,13 +6,15 @@ import com.tw.trains.model.Town;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 最大站点情况下，求路线数量
+ */
 public class MaxStepSearchProvider extends BaseSearchProvider {
     private int maxStep;
     private Town start;
     private Town end;
 
-    public MaxStepSearchProvider(Town start, Town end, int maxStep, TownContainer container){
+    public MaxStepSearchProvider(Town start, Town end, int maxStep, TownContainer container) {
         super(container);
         this.start = start;
         this.end = end;
@@ -21,16 +23,16 @@ public class MaxStepSearchProvider extends BaseSearchProvider {
 
     @Override
     public Integer search() {
-        int  startIdx = this.getIdxByTown(start);
-        int endIdx =  this.getIdxByTown(end);
+        int startIdx = this.getIdxByTown(start);
+        int endIdx = this.getIdxByTown(end);
 
         List<String> choicePathList = new ArrayList<>();
-        List<String> resultData  = execute(String.valueOf(startIdx),String.valueOf(endIdx),maxStep,choicePathList);
-        return resultData == null?0:resultData.size();
+        List<String> resultData = execute(String.valueOf(startIdx), String.valueOf(endIdx), maxStep, choicePathList);
+        return resultData == null ? 0 : resultData.size();
     }
 
     public List<String> execute(String start, String path, int maxPath, List<String> list) {
-        int rowIdx = Integer.parseInt( path.substring(path.length() - 1,path.length()));
+        int rowIdx = Integer.parseInt(path.substring(path.length() - 1, path.length()));
         int[][] graphMatrix = getGraphMatrix();
 
         if (path.length() - 1 > maxPath) {

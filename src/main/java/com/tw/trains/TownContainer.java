@@ -7,16 +7,17 @@ import java.util.*;
 
 public class TownContainer {
 
-    private Set<Town> towns = new TreeSet<>();
-
-    private Map<Town, List<TownRoute>> townRouteMap = new HashMap<>();
-
-    private Map<Town, Integer> townForIdxMap = new HashMap<>();
-
-    private Map<Integer, Town> idxForTownMap = new HashMap<>();
-
     int[][] graphMatrix = null;
-
+    private Set<Town> towns = new TreeSet<>();
+    /**
+     * 起始Town对应的路线list
+     */
+    private Map<Town, List<TownRoute>> townRouteMap = new HashMap<>();
+    /**
+     * 图中town对应的下标
+     */
+    private Map<Town, Integer> townForIdxMap = new HashMap<>();
+    private Map<Integer, Town> idxForTownMap = new HashMap<>();
 
     public void addTownRouteItem(Town start, TownRoute edges) {
         towns.add(start);
@@ -24,7 +25,7 @@ public class TownContainer {
             List<TownRoute> list = new ArrayList<>();
             list.add(edges);
             townRouteMap.put(start, list);
-        } else{
+        } else {
             townRouteMap.get(start).add(edges);
         }
     }
@@ -36,7 +37,7 @@ public class TownContainer {
         graphMatrix = new int[townSize][townSize];
         for (Town town : towns) {
             townForIdxMap.put(town, townIdx);
-            idxForTownMap.put(townIdx,town);
+            idxForTownMap.put(townIdx, town);
             townIdx++;
         }
         buildMatrix();
@@ -44,20 +45,18 @@ public class TownContainer {
     }
 
 
-
-    private void buildMatrix(){
-        int rowIdx = 0;
+    private void buildMatrix() {
         for (Town town : towns) {
             List<TownRoute> list = townRouteMap.get(town);
             if (list != null) {
                 for (TownRoute edge : list) {
-                    Integer idx = townForIdxMap.get(edge.getTarget());
-                    if (idx != null) {
-                        graphMatrix[rowIdx][idx] = edge.getDistance();
+                    Integer startIdx = townForIdxMap.get(edge.getParent());
+                    Integer endIdx = townForIdxMap.get(edge.getTarget());
+                    if (endIdx != null) {
+                        graphMatrix[startIdx][endIdx] = edge.getDistance();
                     }
                 }
             }
-            rowIdx++;
         }
     }
 

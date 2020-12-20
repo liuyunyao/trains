@@ -3,6 +3,9 @@ package com.tw.trains.provider;
 import com.tw.trains.TownContainer;
 import com.tw.trains.model.Town;
 
+/**
+ * 求最短路线
+ */
 public class ShortestDistanceSearchProvider extends BaseSearchProvider {
 
     private Town start;
@@ -19,14 +22,14 @@ public class ShortestDistanceSearchProvider extends BaseSearchProvider {
 
     @Override
     public Integer search() {
-        int  startIdx = this.getIdxByTown(start);
-        int endIdx =  this.getIdxByTown(end);
-        return getShorestDistance(String.valueOf(startIdx),String.valueOf(endIdx),0);
+        int startIdx = this.getIdxByTown(start);
+        int endIdx = this.getIdxByTown(end);
+        return getShorestDistance(String.valueOf(startIdx), String.valueOf(endIdx), 0);
     }
 
-    private   int getShorestDistance(String path, String end, int pathVal) {
+    private int getShorestDistance(String path, String end, int pathVal) {
         int[][] graphMatrix = getGraphMatrix();
-        int rowIdx = Integer.parseInt( path.substring(path.length() - 1));
+        int rowIdx = Integer.parseInt(path.substring(path.length() - 1));
         if (path.endsWith(end) && pathVal < shortedVal && pathVal > 0) {
             shortedPath = path;
             shortedVal = pathVal;
@@ -38,7 +41,7 @@ public class ShortestDistanceSearchProvider extends BaseSearchProvider {
                 if (path.indexOf(String.valueOf(i)) > 0) {
                     continue;
                 } else {
-                    if(pathVal > shortedVal){
+                    if (pathVal > shortedVal) {
                         continue;
                     }
                     getShorestDistance(path + i, end, pathVal + value);

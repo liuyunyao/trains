@@ -5,12 +5,15 @@ import com.tw.trains.model.Town;
 
 import java.util.List;
 
+/**
+ * 求固定路线的距离
+ */
 
-public class DistanceForSpecialRouteSearchProvicder extends BaseSearchProvider {
+public class ExactRouteDistanceSearchProvider extends BaseSearchProvider {
 
     private List<Town> townRoutes;
 
-    public DistanceForSpecialRouteSearchProvicder(List<Town> townRoutes, TownContainer container) {
+    public ExactRouteDistanceSearchProvider(List<Town> townRoutes, TownContainer container) {
         super(container);
         this.townRoutes = townRoutes;
     }
@@ -20,22 +23,22 @@ public class DistanceForSpecialRouteSearchProvicder extends BaseSearchProvider {
         Integer result = 0;
         int[][] map = this.getGraphMatrix();
 
-        if(townRoutes != null){
+        if (townRoutes != null) {
             for (int i = 0; i < townRoutes.size() - 1; i++) {
                 int rowIdx = getIdxByTown(townRoutes.get(i));
-                int cloIdx =  getIdxByTown(townRoutes.get(i+1));
+                int cloIdx = getIdxByTown(townRoutes.get(i + 1));
                 int value = map[rowIdx][cloIdx];
-                if(value > 0){
+                if (value > 0) {
                     result += value;
-                }else {
+                } else {
                     result = 0;
                     break;
                 }
             }
         }
-        if(result >0 ){
+        if (result > 0) {
             return String.valueOf(result);
-        }else {
+        } else {
             return "NO SUCH ROUTE";
         }
     }

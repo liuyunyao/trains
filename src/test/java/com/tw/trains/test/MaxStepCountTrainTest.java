@@ -3,7 +3,7 @@ package com.tw.trains.test;
 import com.tw.trains.BootStarpProperty;
 import com.tw.trains.TownContainer;
 import com.tw.trains.model.Town;
-import com.tw.trains.provider.CountExactStepSearchProvider;
+import com.tw.trains.provider.MaxStepSearchProvider;
 import com.tw.trains.util.RouteBuilder;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,10 +12,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.MissingResourceException;
 
-public class CountExactStepTrainTest {
+public class MaxStepCountTrainTest {
 
     private TownContainer container;
-
 
     @Before
     public void initDataFromProperty() throws IOException {
@@ -24,18 +23,19 @@ public class CountExactStepTrainTest {
         container = property.getContainer();
     }
 
-    @Test(expected =MissingResourceException.class )
+    @Test(expected = MissingResourceException.class)
     public void shouldThrowExceptionWhenReadNotExistProperties() throws IOException {
         BootStarpProperty property = new BootStarpProperty();
         property.init("bb");
     }
 
     @Test
-    public void shouldReturnThreeCountExactStepWhenStartAAndEndCAndExactStepIsFour(){
-        Town start =  RouteBuilder.buildTownInfo("A");
-        Town end =  RouteBuilder.buildTownInfo("C");
-        CountExactStepSearchProvider maxStepProvider = new CountExactStepSearchProvider(start,end,4,container);
+    public void shouldReturnTwoCountMaxStepTrainWhenStartCAndEndCAndMaxStepIsThree() {
+        Town start = RouteBuilder.buildTownInfo("C");
+        MaxStepSearchProvider maxStepProvider = new MaxStepSearchProvider(start, start, 3, container);
         Integer count = maxStepProvider.search();
-        Assert.assertEquals(3,(long)count);
+        Assert.assertEquals(2, (long) count);
     }
+
+
 }

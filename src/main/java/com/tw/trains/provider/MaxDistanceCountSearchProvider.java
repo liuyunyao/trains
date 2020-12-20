@@ -6,13 +6,16 @@ import com.tw.trains.model.Town;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountMaxDistanceSearchProvider extends BaseSearchProvider {
+/**
+ * 最大距离情况下，求路线数量
+ */
+public class MaxDistanceCountSearchProvider extends BaseSearchProvider {
 
     private Town start;
     private Town end;
     private Integer maxDistance;
 
-    public CountMaxDistanceSearchProvider(Town start, Town end, Integer maxDistance, TownContainer container) {
+    public MaxDistanceCountSearchProvider(Town start, Town end, Integer maxDistance, TownContainer container) {
         super(container);
         this.start = start;
         this.end = end;
@@ -22,12 +25,12 @@ public class CountMaxDistanceSearchProvider extends BaseSearchProvider {
 
     @Override
     public Integer search() {
-        int  startIdx = getIdxByTown(start);
+        int startIdx = getIdxByTown(start);
         int endIdx = getIdxByTown(end);
 
         List<String> path = new ArrayList<>();
-        path = execute(String.valueOf(startIdx),String.valueOf(endIdx),maxDistance,0,path);
-        return path ==null?0:path.size();
+        path = execute(String.valueOf(startIdx), String.valueOf(endIdx), maxDistance, 0, path);
+        return path == null ? 0 : path.size();
     }
 
 
@@ -44,7 +47,7 @@ public class CountMaxDistanceSearchProvider extends BaseSearchProvider {
         for (int i = 0; i < graphMatrix.length; i++) {
             int value = graphMatrix[rowIdx][i];
             if (value > 0) {
-                execute(path + i, end, maxDistance,pathVal + value, list);
+                execute(path + i, end, maxDistance, pathVal + value, list);
             }
         }
         return list;
